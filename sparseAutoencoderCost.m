@@ -42,9 +42,24 @@ b2grad = zeros(size(b2));
 % the gradient descent update to W1 would be W1 := W1 - alpha * W1grad, and similarly for W2, b1, b2. 
 % 
 
+%The values of the nodes
+z = cell(3,1);
 
+%The activated value of the cells
+a = cell(3,1);
 
+z{1} = data;
+a{1} = data;
+W = {W1, W2};
+b = {b1, b2};
+m = size(data, 2);
+for layer_counter=1:2
+	z{layer_counter+1} = W{layer_counter}*a{layer_counter} + b{layer_counter};
+	a{layer_counter+1} = sigmoid(z{layer_counter+1});
+end
 
+diff = a{3} - a{1};
+cost = 1/(m) * sum(sum(1/2 * diff .^ 2));
 
 
 

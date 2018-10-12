@@ -24,6 +24,21 @@ patches = zeros(patchsize*patchsize, numpatches);
 %  patch corresponding to the pixels in the block (21,21) to (30,30) of
 %  Image 1
 
+for sample_counter=1:numpatches
+	
+	%Choosing the image number
+	image_num = randi(10);
+	
+	%Choosing the upper left coordinate of the patch.
+	row_coord = randi(512 - patchsize + 1);
+	col_coord = randi(512 - patchsize + 1);
+	
+	patches(:, sample_counter) = ...
+		reshape(IMAGES(row_coord:row_coord+patchsize-1, col_coord:col_coord+patchsize-1, image_num), [], 1);
+	
+end
+
+
 
 
 
