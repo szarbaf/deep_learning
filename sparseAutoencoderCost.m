@@ -50,6 +50,7 @@ a = cell(3,1);
 
 z{1} = data;
 a{1} = data;
+y = data;
 W = {W1, W2};
 b = {b1, b2};
 m = size(data, 2);
@@ -58,22 +59,28 @@ for layer_counter=1:2
 	a{layer_counter+1} = sigmoid(z{layer_counter+1});
 end
 
-diff = a{3} - a{1};
+diff = y - a{3};
 cost = 1/(m) * sum(sum(1/2 * diff .^ 2));
 
 
+%Calculating the gradients
+Wgrad = cell(2,1);
+bgrad = cell(2,1);
+delta = cell(3,1);
 
+delta{3} = -(y - a{3}) .* (a{3}.*(1-a{3}));
+for layer_counter=2:-1:1
+	W_T = W{layer_counter}';
+	delta{layer_counter} = (W_T*delta{layer_counter+1}) ...
+		.* (a{layer_counter}.*(1-a{layer_counter}));
+	Wgrad{layer_counter} = delta{layer_counter+1} * (a{layer_counter})' / m;
+	bgrad{layer_counter} = sum(delta{layer_counter+1}, 2) / m;
+end
 
-
-
-
-
-
-
-
-
-
-
+W1grad = Wgrad{1};
+W2grad = Wgrad{2};
+b1grad = bgrad{1};
+b2grad = bgrad{2};
 
 %-------------------------------------------------------------------
 % After computing the cost and gradient, we will convert the gradients back

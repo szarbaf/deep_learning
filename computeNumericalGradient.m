@@ -16,9 +16,21 @@ numgrad = zeros(size(theta));
 % I.e., numgrad(i) should be the (approximately) the partial derivative of J with 
 % respect to theta(i).
 %                
-% Hint: You will probably want to compute the elements of numgrad one at a time. 
-
-
+% Hint: You will probably want to compute the elements of numgrad one at a time.
+EPSILON = 1e-4;
+num_vars = length(theta);
+for var_c=1:num_vars
+	delta = zeros(size(theta));
+	delta(var_c) = 1;
+	
+	plus_theta = theta + delta*EPSILON;
+	plus_J = J(plus_theta);
+	
+	minus_theta = theta - delta*EPSILON;
+	minus_J = J(minus_theta);
+	
+	numgrad(var_c) = (plus_J - minus_J) / (2*EPSILON);
+end
 
 
 
